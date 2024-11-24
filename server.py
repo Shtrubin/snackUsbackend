@@ -5,6 +5,7 @@ import random
 import json
 from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
+from entity_extraction import extract_entities  # Import entity extraction function
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -35,6 +36,16 @@ def chat():
     return jsonify({"response": response})
 
 def get_response(msg):
+    # Call the entity extraction function
+    places, foods, adjectives = extract_entities(msg)
+
+    # Print the extracted entities to the console
+    print(f"\nEntities detected from message: '{msg}'")
+    print("Detected places:", places)
+    print("Detected foods:", foods)
+    print("Detected adjectives:", adjectives)
+
+    # Proceed with intent recognition
     sentence = tokenize(msg)
     X = bag_of_words(sentence, all_words)
     X = X.reshape(1, X.shape[0])

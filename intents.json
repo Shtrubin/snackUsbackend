@@ -219,6 +219,23 @@
         "Many Nepalese dishes, like 'Dal Bhat' and 'Aloo Tama', are packed with nutrients, and use fresh ingredients, making them a healthy choice.",
         "Dal Bhat is a balanced and healthy meal, as it provides protein from lentils, carbohydrates from rice, and plenty of vitamins from vegetables."
       ]
+    },
+    {
+      "tag": "where_to_eat",
+      "patterns": [
+        "Where can I eat the best food?",
+        "Where should I go to eat?",
+        "Where can I find good food?",
+        "Where to eat near me?",
+        "Can you recommend a place to eat?",
+        "Where is the best place to eat around here?"
+      ],
+      "responses": [
+        "Can you please specify which location you are asking about?",
+        "Could you tell me the area you're in so I can recommend some places?",
+        "I need a bit more detail! Could you tell me where you're looking to eat?",
+        "Please specify your location so I can recommend some good spots to eat."
+      ]
     }
   ]
 }
