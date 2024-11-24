@@ -1,8 +1,6 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
-import mysql.connector
-import os
-from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
