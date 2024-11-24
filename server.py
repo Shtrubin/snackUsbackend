@@ -3,18 +3,18 @@ from flask_cors import CORS
 import torch
 import random
 import json
+import mysql.connector
+import os
+from werkzeug.utils import secure_filename
 from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
 from entity_extraction import extract_entities
-import mysql.connector
-import os
-from werkzeug.utils import secure_filename  # Import entity extraction function
 
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)  # This is to enable CORS (Cross-Origin Resource Sharing) for frontend
 
-
+# Configure file upload settings
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['ALLOWED_EXTENSIONS'] = {'jpg', 'jpeg', 'png', 'gif'}
 
@@ -30,9 +30,11 @@ db = mysql.connector.connect(
     database="food_blog"
 )
 
+# Check if the file has an allowed extension
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
+# Route to add a new restaurant (with image upload)
 @app.route('/add_restaurant', methods=['POST'])
 def add_restaurant():
     try:
@@ -80,10 +82,26 @@ def add_restaurant():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+# Route to serve uploaded images
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+# Route to get all restaurants
+@app.route('/restaurants', methods=['GET'])
+def get_all_restaurants():
+    try:
+        cursor = db.cursor(dictionary=True)  # Fetch results as dictionary
+        cursor.execute("SELECT * FROM restaurants")
+        restaurants = cursor.fetchall()  # Get all records
+
+        # Return the restaurant data in JSON format
+        return jsonify(restaurants), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+# Route to handle chat functionality (for example, use NLP for intent recognition)
 # Load intents and model data
 with open('intents.json', 'r') as json_data:
     intents = json.load(json_data)
