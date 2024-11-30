@@ -83,31 +83,9 @@ def login_user():
 
         return jsonify({
             "message": "Login successful!",
-            "user_id": user['id']
+            "user_id": user['id'],
+            "username": user['username']
         }), 200
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route('/reviews/<int:restaurant_id>', methods=['GET'])
-def get_reviews_for_restaurant(restaurant_id):
-    try:
-        # Fetch all reviews for the given restaurant, including the reviewer's username
-        cursor = db.cursor(dictionary=True)
-        cursor.execute("""
-            SELECT reviews.review_text, users.username 
-            FROM reviews
-            JOIN users ON reviews.user_id = users.id
-            WHERE reviews.restaurant_id = %s
-        """, (restaurant_id,))
-        
-        reviews = cursor.fetchall()
-
-        if not reviews:
-            return jsonify({"message": "No reviews yet for this restaurant."}), 200
-
-        return jsonify(reviews), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -119,16 +97,43 @@ def get_reviews_for_restaurant(restaurant_id):
 def get_restaurant(id):
     try:
         cursor = db.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM restaurants WHERE id = %s", (id,))
+        
+        # Fetch restaurant details
+        cursor.execute("""
+            SELECT r.id, r.title, r.restaurant_name, r.photo_url, r.rating, r.location, r.special_item, r.description,
+                   r.recommendation, r.menu_photo_url, r.category
+            FROM restaurants r
+            WHERE r.id = %s
+        """, (id,))
+        
         restaurant = cursor.fetchone()
 
         if not restaurant:
             return jsonify({"error": "Restaurant not found"}), 404
 
+        # Fetch reviews for the restaurant
+        cursor.execute("""
+            SELECT rev.review_text, u.username
+            FROM reviews rev
+            LEFT JOIN users u ON rev.user_id = u.id
+            WHERE rev.restaurant_id = %s
+        """, (id,))
+        
+        reviews = cursor.fetchall()
+
+        # If no reviews exist, set it as an empty list
+        if not reviews:
+            reviews = []
+
+        # Add reviews to the restaurant data
+        restaurant['reviews'] = reviews
+
         return jsonify(restaurant), 200
 
     except Exception as e:
+        print(f"Error occurred: {e}")
         return jsonify({"error": str(e)}), 500
+
 
 
 
@@ -219,23 +224,12 @@ def submit_review():
         cursor.execute(query, (user_id, restaurant_id, review_text))
         db.commit()
 
-        # Fetch the username of the user who posted the review
-        cursor.execute("SELECT username FROM users WHERE id = %s", (user_id,))
-        user = cursor.fetchone()
-
-        # If user is not found, return empty string for username
-        if not user:
-            return jsonify({
-                "username": ""
-            }), 200
-
-        # Return the username from the tuple (first item in the tuple)
-        return jsonify({
-            "username": user[0]  # Access username by index 0
-        }), 200
+        # Return a success message instead of username
+        return jsonify({"message": "Review submitted successfully"}), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 
