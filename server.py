@@ -27,7 +27,7 @@ db = mysql.connector.connect(
     host="localhost",
     user="root",  # Replace with your MySQL username
     password="",  # Replace with your MySQL password
-    database="food_blog"
+    database="snackus"
 )
 
 # Check if the file has an allowed extension
@@ -48,7 +48,12 @@ def add_restaurant():
         special_item = data['special_item']
         description = data['description']
         recommendation = data['recommendation']
-        
+        category = data['category']  # Get the category from the request
+
+        # Validate category
+        if category not in ['local', 'mid-range', 'high-end']:
+            return jsonify({"error": "Invalid category. Allowed values are 'local', 'mid-range', or 'high-end'."}), 400
+
         # Handle image uploads
         restaurant_photo = request.files['restaurant_photo']
         menu_photo = request.files['menu_photo']
@@ -71,10 +76,10 @@ def add_restaurant():
         # Insert the data into the database
         cursor = db.cursor()
         query = """
-            INSERT INTO restaurants (title, restaurant_name, photo_url, rating, location, sub_location, special_item, description, recommendation, menu_photo_url)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            INSERT INTO restaurants (title, restaurant_name, photo_url, rating, location, sub_location, special_item, description, recommendation, menu_photo_url, category)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        cursor.execute(query, (title, restaurant_name, photo_url, rating, location, sub_location, special_item, description, recommendation, menu_photo_url))
+        cursor.execute(query, (title, restaurant_name, photo_url, rating, location, sub_location, special_item, description, recommendation, menu_photo_url, category))
         db.commit()
 
         return jsonify({"message": "Restaurant added successfully!"}), 200
