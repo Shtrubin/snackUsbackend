@@ -4,11 +4,12 @@ from nltk_utils import bag_of_words, tokenize
 from entity_extraction import extract_entities
 from model import NeuralNet
 import json
+import random
 import mysql.connector
 positive_adjectives = ['Best', 'Good', 'Excellent', 'Great', 'Amazing', 'Awesome', 'Fantastic']
 negative_adjectives = ['Bad', 'Poor', 'Worst', 'Horrible', 'Terrible', 'Awful']
  
-with open('intents.json', 'r') as json_data:
+with open('intents.json', 'r',encoding='utf-8') as json_data:
     intents = json.load(json_data)
 
 FILE = "data.pth"
@@ -172,6 +173,8 @@ def process_intent_with_model(msg, db=None):
 
                 elif tag == "find_by_sub_location":
                     return fetch_restaurants_by_sub_location(msg,db)
+                else:
+                    return random.choice(intent['responses'])
 
         return "I do not understand..."
 

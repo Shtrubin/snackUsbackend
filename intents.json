@@ -6,7 +6,8 @@
         "Can you recommend a restaurant?",
         "Where can I eat?",
         "Suggest me a restaurant",
-        "What are some good restaurants?"
+        "What are some good restaurants?",
+        "Restaurants near me"
       ],
       "responses": [
         "Sure! Where would you like to eat? Any preferences for location or category?"
@@ -21,18 +22,6 @@
       ],
       "responses": [
         "I found some restaurants in this category. Let me show you!"
-      ]
-    },
-    {
-      "tag": "find_by_location",
-      "patterns": [
-        "Find restaurants in {location}",
-        "Where can I eat in {location}?",
-        "Restaurants near me",
-        "Suggest me places in {location}"
-      ],
-      "responses": [
-        "Here are some great restaurants in {location}. Let me show you!"
       ]
     },
     {
@@ -66,6 +55,174 @@
       ],
       "responses": [
         "Here are some great places in {sub_location}. Check them out!"
+      ]
+    },
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hello",
+        "Hi",
+        "Hey",
+        "Good morning",
+        "Good evening"
+      ],
+      "responses": [
+        "Hello! How can I assist you today?",
+        "Hi there! What can I help you with?",
+        "Hey! How can I help you today?"
+      ]
+    },
+    {
+      "tag": "time",
+      "patterns": [
+        "What time is it?",
+        "Tell me the time",
+        "Do you know the time?"
+      ],
+      "responses": [
+        "Sorry, I can't tell the time right now.",
+        "I don't have access to the current time, but you can check your device's clock!"
+      ]
+    },
+    {
+      "tag": "weather",
+      "patterns": [
+        "What's the weather like?",
+        "Tell me the weather",
+        "How's the weather today?"
+      ],
+      "responses": [
+        "I don't have live weather updates, but you can check a weather app or website for the latest information!"
+      ]
+    },
+    {
+      "tag": "thank_you",
+      "patterns": [
+        "Thank you",
+        "Thanks",
+        "I appreciate it"
+      ],
+      "responses": [
+        "You're welcome! Let me know if you need anything else.",
+        "Happy to help! Feel free to ask anything else."
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Goodbye",
+        "Bye",
+        "See you later"
+      ],
+      "responses": [
+        "Goodbye! Have a great day!",
+        "See you later! Take care!"
+      ]
+    },
+    {
+      "tag": "general_facts",
+      "patterns": [
+        "Tell me a fact",
+        "Give me a random fact",
+        "Tell me something interesting"
+      ],
+      "responses": [
+        "Did you know? Honey never spoils. Archaeologists have found pots of honey in ancient tombs that are over 3,000 years old!",
+        "Here’s a fun fact: Octopuses have three hearts!"
+      ]
+    },
+    {
+      "tag": "help",
+      "patterns": [
+        "Can you help me?",
+        "I need assistance",
+        "I don't know what to do",
+        "Help me out"
+      ],
+      "responses": [
+        "Of course! What do you need help with?",
+        "I'm here to help! What can I assist you with?"
+      ]
+    },
+    {
+      "tag": "joke",
+      "patterns": [
+        "Tell me a joke",
+        "Make me laugh",
+        "I need a joke"
+      ],
+      "responses": [
+        "Why don’t skeletons fight each other? They don’t have the guts!",
+        "Why did the scarecrow win an award? Because he was outstanding in his field!"
+      ]
+    },
+    {
+      "tag": "quote",
+      "patterns": [
+        "Give me a quote",
+        "Tell me an inspirational quote",
+        "Share a famous quote"
+      ],
+      "responses": [
+        "“The only way to do great work is to love what you do.” – Steve Jobs",
+        "“Success is not final, failure is not fatal: It is the courage to continue that counts.” – Winston Churchill"
+      ]
+    },
+    {
+      "tag": "recipe",
+      "patterns": [
+        "How do I make Dal Bhat?",
+        "What is the recipe for Momo?",
+        "How do I cook Sel Roti?"
+      ],
+      "responses": [
+        "Here’s a simple recipe for Dal Bhat: Cook rice and prepare lentil soup using lentils, turmeric, ginger, garlic, and spices. Serve with vegetables and pickles.",
+        "For Momo: Make a dough with flour and water, roll it out, and fill with a mixture of ground meat or vegetables. Steam or fry them. Serve with chutney.",
+        "To make Sel Roti: Soak rice overnight, blend into a paste, and fry the mixture in a round shape until golden brown. Serve warm."
+      ]
+    },
+    {
+      "tag": "nepal_street_food",
+      "patterns": [
+        "What is a popular street food in Nepal?",
+        "Tell me about Nepali street food",
+        "What are famous street foods in Nepal?",
+        "What do people eat on the streets of Nepal?"
+      ],
+      "responses": [
+        "Nepal's street food scene is diverse and delicious! Some famous options include:",
+        "1. **Momo**: Dumplings filled with meat or vegetables, often served with a spicy dipping sauce.",
+        "2. **Chatamari**: Sometimes called Nepali pizza, it's a rice flour crepe topped with meat, eggs, and vegetables.",
+        "3. **Sel Roti**: A homemade rice doughnut often prepared during festivals and special occasions.",
+        "4. **Samosa**: Deep-fried pastries filled with spiced potatoes or meat.",
+        "5. **Chowmein**: Nepali-style fried noodles, usually served with vegetables, chicken, or pork.",
+        "6. **Thukpa**: A noodle soup popular in the mountainous regions of Nepal, typically served with vegetables or meat.",
+        "7. **Aloo Tama**: A unique Nepali curry made with potatoes and bamboo shoots, often enjoyed as a street snack.",
+        "These street foods reflect Nepal's vibrant food culture, and you can find them in bustling areas like Thamel in Kathmandu!"
+      ]
+    },
+    {
+      "tag": "birthday",
+      "patterns": [
+        "When is your birthday?",
+        "When were you born?",
+        "What's your birthdate?"
+      ],
+      "responses": [
+        "I don't have a birthday, but I was created to assist you at any time!",
+        "I don’t celebrate birthdays, but I’m always here to help you!"
+      ]
+    },
+    {
+      "tag": "age",
+      "patterns": [
+        "How old are you?",
+        "What is your age?",
+        "How many years have you been around?"
+      ],
+      "responses": [
+        "I don’t age in the traditional sense, but I’ve been here to help you since my creation!",
+        "I don't age, but I'm always ready to assist you."
       ]
     }
   ]
