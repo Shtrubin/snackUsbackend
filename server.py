@@ -81,10 +81,14 @@ def login_user():
         if not user or not check_password_hash(user['password'], password):
             return jsonify({"error": "Invalid email or password"}), 401
 
-        return jsonify({"message": "Login successful!"}), 200
+        return jsonify({
+            "message": "Login successful!",
+            "user_id": user['id']
+        }), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 
 @app.route('/restaurant/<int:id>', methods=['GET'])
@@ -170,6 +174,32 @@ def get_all_restaurants():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+@app.route('/submit_review', methods=['POST'])
+def submit_review():
+    try:
+        data = request.json
+        review_text = data['review_text']
+        user_id = data['user_id']
+        restaurant_id = data['restaurant_id']
+
+        if not review_text or not user_id or not restaurant_id:
+            return jsonify({"error": "Missing required fields"}), 400
+
+        # Insert review into the database
+        cursor = db.cursor()
+        query = """
+            INSERT INTO reviews (user_id, restaurant_id, review_text)
+            VALUES (%s, %s, %s)
+        """
+        cursor.execute(query, (user_id, restaurant_id, review_text))
+        db.commit()
+
+        return jsonify({"message": "Review submitted successfully!"}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 @app.route("/chat", methods=["POST"])
 def chat():
