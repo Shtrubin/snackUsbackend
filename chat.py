@@ -37,6 +37,11 @@ def extract_category(msg):
         if category in msg.lower():
             return category
     return None
+def extract_place_name(msg):
+    match = re.search(r'\bin\s+([a-zA-Z0-9\s]+)', msg)
+    if match:
+        return match.group(1).strip() 
+    return None
 
 def get_response(msg, db):
     places, foods, adjectives = extract_entities(msg.title())
@@ -52,11 +57,11 @@ def get_response(msg, db):
 
     if positive_detected:
         print("Positive adjective detected. Fetching restaurants with high ratings.")
-        return fetch_restaurants_by_rating(min_rating=8, db=db)  # Fetch restaurants with rating 8 or above
+        return fetch_restaurants_by_rating(min_rating=8, db=db)  
 
     elif negative_detected:
         print("Negative adjective detected. Fetching restaurants with low ratings.")
-        return fetch_restaurants_by_rating(max_rating=3, db=db)  # Fetch restaurants with rating 3 or below
+        return fetch_restaurants_by_rating(max_rating=3, db=db)  
 
     if len(foods) > 0:
         return fetch_restaurants_by_food(foods[0], db)
@@ -71,17 +76,22 @@ def get_response(msg, db):
         return process_location_based_query(places[0], db)
 
 def search_location_in_database(msg, db=None):
+    place_name = extract_place_name(msg)  
+    if not place_name:
+        return None  
+
     cursor = db.cursor()
-    cursor.execute("SELECT DISTINCT location FROM restaurants WHERE location LIKE %s", ('%' + msg + '%',))
+    cursor.execute("SELECT DISTINCT location FROM restaurants WHERE location LIKE %s OR sub_location LIKE %s", 
+                   ('%' + place_name + '%', '%' + place_name + '%'))
     result = cursor.fetchall()
 
     if result:
-        return result[0][0]
-    return None
+        return result[0][0] 
+    return None 
 
 def handle_location_response(location,db=None):
     cursor = db.cursor()
-    cursor.execute("SELECT restaurant_name, rating, description FROM restaurants WHERE location = %s", (location,))
+    cursor.execute("SELECT restaurant_name, rating, description FROM restaurants WHERE location = %s OR sub_location LIKE %s", (location, location))
     result = cursor.fetchall()
 
     if result:
@@ -160,8 +170,8 @@ def process_intent_with_model(msg, db=None):
                     else:
                         return "Please specify a rating between 1 and 10."
 
-                elif tag == "find_by_sub_location" and len(places) > 0:
-                    return fetch_restaurants_by_sub_location(places[0], db)
+                elif tag == "find_by_sub_location":
+                    return fetch_restaurants_by_sub_location(msg,db)
 
         return "I do not understand..."
 
@@ -169,7 +179,7 @@ def process_intent_with_model(msg, db=None):
 
 def process_location_based_query(place, db=None):
     cursor = db.cursor()
-    cursor.execute("SELECT restaurant_name, rating, description FROM restaurants WHERE location = %s", (place,))
+    cursor.execute("SELECT restaurant_name, rating, description FROM restaurants WHERE location = %s OR sub_location LIKE %s", (place,place))
     result = cursor.fetchall()
 
     if result:
@@ -215,3 +225,21 @@ def fetch_restaurants_rating(rating, db=None):
             response += f"{row[0]} - Rating: {row[1]}\n"
         return response
     return f"Sorry, I couldn't find any restaurants with a rating above {rating}."
+
+def fetch_restaurants_by_sub_location(msg, db=None):
+    place_name = extract_place_name(msg)  
+    if not place_name:
+        return None  
+
+    cursor = db.cursor()
+    cursor.execute("SELECT restaurant_name, location, rating, description FROM restaurants WHERE sub_location LIKE %s", ('%' + place_name + '%',))
+    result = cursor.fetchall()
+
+    if result:
+        response = f"Here are some restaurants in the {sub_location} sub-location:\n"
+        for row in result:
+            response += f"{row[0]} - Location: {row[1]} - Rating: {row[2]}\nDescription: {row[3]}\n\n"
+        return response
+    else:
+        return f"Sorry, I couldn't find any restaurants in the {sub_location} sub-location."
+
