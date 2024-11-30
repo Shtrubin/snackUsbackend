@@ -6,39 +6,89 @@ import json
 import mysql.connector
 import os
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 from model import NeuralNet
 from nltk_utils import bag_of_words, tokenize
 from entity_extraction import extract_entities
 
-# Initialize Flask app
 app = Flask(__name__)
-CORS(app)  # This is to enable CORS (Cross-Origin Resource Sharing) for frontend
+CORS(app)
 
-# Configure file upload settings
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['ALLOWED_EXTENSIONS'] = {'jpg', 'jpeg', 'png', 'gif'}
 
-# Ensure uploads folder exists
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
 
-# MySQL configuration
 db = mysql.connector.connect(
     host="localhost",
-    user="root",  # Replace with your MySQL username
-    password="",  # Replace with your MySQL password
+    user="root",
+    password="",
     database="snackus"
 )
 
-# Check if the file has an allowed extension
+@app.route('/register', methods=['POST'])
+def register_user():
+    try:
+        data = request.json
+        username = data['username']
+        email = data['email']
+        password = data['password']
+
+        if not username or not email or not password:
+            return jsonify({"error": "Please provide all required fields"}), 400
+
+        # Check if the email is the admin email
+        if email == "adminsnackus@gmail.com":
+            return jsonify({"error": "This email is reserved for admin, registration not allowed."}), 400
+
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        existing_user = cursor.fetchone()
+        if existing_user:
+            return jsonify({"error": "Email is already registered"}), 400
+
+        hashed_password = generate_password_hash(password)
+
+        cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)",
+                       (username, email, hashed_password))
+        db.commit()
+
+        return jsonify({"message": "User registered successfully!"}), 201
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/login', methods=['POST'])
+def login_user():
+    try:
+        data = request.json
+        email = data['email']
+        password = data['password']
+
+        if not email or not password:
+            return jsonify({"error": "Email and password are required"}), 400
+
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM users WHERE email = %s", (email,))
+        user = cursor.fetchone()
+
+        if not user or not check_password_hash(user['password'], password):
+            return jsonify({"error": "Invalid email or password"}), 401
+
+        return jsonify({"message": "Login successful!"}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
 
-# Route to add a new restaurant (with image upload)
 @app.route('/add_restaurant', methods=['POST'])
 def add_restaurant():
     try:
-        # Get data from the request
         data = request.form
         title = data['title']
         restaurant_name = data['restaurant_name']
@@ -48,13 +98,11 @@ def add_restaurant():
         special_item = data['special_item']
         description = data['description']
         recommendation = data['recommendation']
-        category = data['category']  # Get the category from the request
+        category = data['category']
 
-        # Validate category
         if category not in ['local', 'mid-range', 'high-end']:
             return jsonify({"error": "Invalid category. Allowed values are 'local', 'mid-range', or 'high-end'."}), 400
 
-        # Handle image uploads
         restaurant_photo = request.files['restaurant_photo']
         menu_photo = request.files['menu_photo']
         
@@ -63,17 +111,16 @@ def add_restaurant():
 
         if restaurant_photo and allowed_file(restaurant_photo.filename):
             filename = secure_filename(restaurant_photo.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)  # Use correct path
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             restaurant_photo.save(file_path)
-            photo_url = f"http://localhost:5000/uploads/{filename}"  # Correct URL
+            photo_url = f"http://localhost:5000/uploads/{filename}"
 
         if menu_photo and allowed_file(menu_photo.filename):
             filename = secure_filename(menu_photo.filename)
-            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)  # Use correct path
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             menu_photo.save(file_path)
-            menu_photo_url = f"http://localhost:5000/uploads/{filename}"  # Correct URL
+            menu_photo_url = f"http://localhost:5000/uploads/{filename}"
 
-        # Insert the data into the database
         cursor = db.cursor()
         query = """
             INSERT INTO restaurants (title, restaurant_name, photo_url, rating, location, sub_location, special_item, description, recommendation, menu_photo_url, category)
@@ -87,27 +134,22 @@ def add_restaurant():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Route to serve uploaded images
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
-# Route to get all restaurants
 @app.route('/restaurants', methods=['GET'])
 def get_all_restaurants():
     try:
-        cursor = db.cursor(dictionary=True)  # Fetch results as dictionary
+        cursor = db.cursor(dictionary=True)
         cursor.execute("SELECT * FROM restaurants")
-        restaurants = cursor.fetchall()  # Get all records
+        restaurants = cursor.fetchall()
 
-        # Return the restaurant data in JSON format
         return jsonify(restaurants), 200
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Route to handle chat functionality (for example, use NLP for intent recognition)
-# Load intents and model data
 with open('intents.json', 'r') as json_data:
     intents = json.load(json_data)
 
@@ -132,7 +174,6 @@ def chat():
     return jsonify({"response": response})
 
 def get_response(msg):
-    # Call the entity extraction function
     places, foods, adjectives = extract_entities(msg)
 
     # Print the extracted entities to the console
