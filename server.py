@@ -82,6 +82,22 @@ def login_user():
         return jsonify({"error": str(e)}), 500
 
 
+@app.route('/restaurant/<int:id>', methods=['GET'])
+def get_restaurant(id):
+    try:
+        cursor = db.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM restaurants WHERE id = %s", (id,))
+        restaurant = cursor.fetchone()
+
+        if not restaurant:
+            return jsonify({"error": "Restaurant not found"}), 404
+
+        return jsonify(restaurant), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
