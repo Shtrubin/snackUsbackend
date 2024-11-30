@@ -5,12 +5,12 @@ nlp = spacy.load("en_core_web_sm")
 
 # Predefined list of common foods (can be extended)
 food_list = [
-    "biryani", "momo", "pizza", "burger", "pasta", "sushi", "salad", "tacos", "ramen", "steak", 
-    "sandwich", "ice cream", "cake", "fries", "noodles", "pancakes", "chicken", "fish", "rice", "dumplings"
+    "biryani", "momo", "pizza", "burger", "pasta", "sushi", "tacos", "ramen", "steak", 
+    "sandwich", "ice cream", "cake", "fries", "noodles", "pancakes", "chicken", "fish", "rice", "dumplings", "Espresso"
 ]
 
 # Function to extract entities
-def extract_entities(text):
+def extract_entities(text):     
 
     doc = nlp(text)
     places = []

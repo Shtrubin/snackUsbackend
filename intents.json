@@ -1,240 +1,71 @@
 {
   "intents": [
     {
-      "tag": "greeting",
+      "tag": "find_restaurant",
       "patterns": [
-        "Hi",
-        "Hey",
-        "How are you",
-        "Is anyone there?",
-        "Hello",
-        "Good day"
+        "Can you recommend a restaurant?",
+        "Where can I eat?",
+        "Suggest me a restaurant",
+        "What are some good restaurants?"
       ],
       "responses": [
-        "Hey :-)",
-        "Hello",
-        "Hi there, what can I do for you?",
-        "Hi there, how can I help?"
+        "Sure! Where would you like to eat? Any preferences for location or category?"
       ]
     },
     {
-      "tag": "goodbye",
+      "tag": "find_by_category",
       "patterns": [
-        "Bye",
-        "See you later",
-        "Goodbye"
+        "Find a local restaurant",
+        "I want a mid-range restaurant",
+        "Show me high-end restaurants"
       ],
       "responses": [
-        "See you later, thanks for visiting",
-        "Have a nice day",
-        "Bye! Come back again soon."
+        "I found some restaurants in this category. Let me show you!"
       ]
     },
     {
-      "tag": "thanks",
+      "tag": "find_by_location",
       "patterns": [
-        "Thanks",
-        "Thank you",
-        "That's helpful",
-        "Thank's a lot!"
+        "Find restaurants in {location}",
+        "Where can I eat in {location}?",
+        "Restaurants near me",
+        "Suggest me places in {location}"
       ],
       "responses": [
-        "Happy to help!",
-        "Any time!",
-        "My pleasure"
+        "Here are some great restaurants in {location}. Let me show you!"
       ]
     },
     {
-      "tag": "items",
+      "tag": "find_by_special_item",
       "patterns": [
-        "Which items do you have?",
-        "What kinds of items are there?",
-        "What do you sell?"
+        "I want a restaurant with {special_item}",
+        "Find a restaurant with {special_item}",
+        "Where can I find {special_item}?"
       ],
       "responses": [
-        "We sell coffee and tea",
-        "We have coffee and tea"
+        "Here are some restaurants serving {special_item}. Enjoy!"
       ]
     },
     {
-      "tag": "payments",
+      "tag": "find_by_rating",
       "patterns": [
-        "Do you take credit cards?",
-        "Do you accept Mastercard?",
-        "Can I pay with Paypal?",
-        "Are you cash only?"
+        "I want a highly rated restaurant",
+        "Show me top-rated restaurants",
+        "Find restaurants with rating above {rating}"
       ],
       "responses": [
-        "We accept VISA, Mastercard and Paypal",
-        "We accept most major credit cards, and Paypal"
+        "Here are some highly-rated restaurants. You may like them!"
       ]
     },
     {
-      "tag": "delivery",
+      "tag": "find_by_sub_location",
       "patterns": [
-        "How long does delivery take?",
-        "How long does shipping take?",
-        "When do I get my delivery?"
+        "Find restaurants in {sub_location}",
+        "Show me restaurants in {sub_location}",
+        "Any restaurants in {sub_location}?"
       ],
       "responses": [
-        "Delivery takes 2-4 days",
-        "Shipping takes 2-4 days"
-      ]
-    },
-    {
-      "tag": "funny",
-      "patterns": [
-        "Tell me a joke!",
-        "Tell me something funny!",
-        "Do you know a joke?"
-      ],
-      "responses": [
-        "Why did the hipster burn his mouth? He drank the coffee before it was cool.",
-        "What did the buffalo say when his son left for college? Bison."
-      ]
-    },
-    {
-      "tag": "cooking_methods",
-      "patterns": [
-        "How do you cook momo?",
-        "What is the cooking method for dal bhat?",
-        "How is sel roti made?",
-        "How do you make traditional Nepalese curry?"
-      ],
-      "responses": [
-        "Momo is typically steamed, but you can also fry it for a crispy texture. It is usually filled with minced meat or vegetables.",
-        "Dal Bhat is prepared by boiling lentils (dal) and serving them with steamed rice (bhat). The lentils are often seasoned with turmeric, cumin, and ginger.",
-        "Sel Roti is made by mixing rice flour, sugar, yogurt, and a few spices, and then deep frying the dough into a ring shape. It’s crispy on the outside and soft inside.",
-        "Traditional Nepalese curry is made by frying spices like cumin, coriander, and turmeric in hot oil, followed by adding vegetables or meat and cooking them slowly in a flavorful sauce."
-      ]
-    },
-    {
-      "tag": "street_food",
-      "patterns": [
-        "What is the best street food in Nepal?",
-        "Tell me about Nepalese street food",
-        "What do people eat on the streets in Nepal?",
-        "What is the most popular street food in Kathmandu?"
-      ],
-      "responses": [
-        "Some popular street foods in Nepal include 'Chatamari' (Nepali pizza), 'Samosa', and 'Chaat'. 'Momo' is also often found in street stalls.",
-        "In Kathmandu, 'Pani Puri' and 'Chatamari' are beloved street foods. You’ll also find vendors selling 'Juju Dhau' (King Curd) in Bhaktapur.",
-        "Nepalese street food includes 'Samosas', 'Chatamari', and 'Momo'. These snacks are typically served with spicy chutneys and are perfect for on-the-go."
-      ]
-    },
-    {
-      "tag": "vegetarian_food",
-      "patterns": [
-        "What are some vegetarian dishes in Nepal?",
-        "Can you recommend vegetarian food in Nepal?",
-        "Is there vegetarian food in Nepal?",
-        "What do vegetarians eat in Nepal?"
-      ],
-      "responses": [
-        "Nepalese vegetarian dishes include 'Aloo Tama' (potatoes and bamboo shoots), 'Dal Bhat', 'Chana Masala', and 'Methi Thepla' (fenugreek flatbread).",
-        "Vegetarians in Nepal can enjoy dishes like 'Aloo Gobi' (potato and cauliflower curry), 'Dal Bhat' (lentils with rice), and 'Thukpa' (vegetable noodle soup).",
-        "There are plenty of vegetarian options in Nepal, including 'Chana Tarkari', 'Aloo Tama', 'Methi Thepla', and vegetable 'Momo'."
-      ]
-    },
-    {
-      "tag": "newari_cuisine",
-      "patterns": [
-        "What is Newari food?",
-        "Tell me about Newar cuisine",
-        "What do people eat in Newar culture?",
-        "What is the most popular Newari dish?"
-      ],
-      "responses": [
-        "Newari cuisine is a traditional food culture of the Newar people in the Kathmandu Valley. Famous dishes include 'Yomari' (sweet steamed dumplings), 'Chhoila' (spiced grilled meat), and 'Sankhuwal' (fermented barley drink).",
-        "Newar cuisine is known for its rich flavors. Common dishes include 'Samay Baji' (a Newari platter with meat, rice, and lentils), 'Yomari', and 'Chhoila'.",
-        "In Newar culture, dishes like 'Yomari', 'Sankhuwal', and 'Chhoila' are central. These foods often combine meat, spices, and fermented ingredients."
-      ]
-    },
-    {
-      "tag": "nepali_soups",
-      "patterns": [
-        "What soups do people eat in Nepal?",
-        "Tell me about Nepali soups",
-        "What is the most popular soup in Nepal?",
-        "What is 'Thukpa'?"
-      ],
-      "responses": [
-        "'Thukpa' is a popular Nepalese noodle soup, made with vegetables or meat and flavored with soy sauce, ginger, garlic, and spices.",
-        "Nepali soups like 'Thukpa' (noodle soup), 'Kodo Soup' (barley soup), and 'Gundruk Soup' (fermented leafy vegetable soup) are enjoyed in many households.",
-        "'Thukpa' is a beloved noodle soup in Nepal, often served with a spicy broth, vegetables, and meat. It's a perfect comfort food for chilly days."
-      ]
-    },
-    {
-      "tag": "cultural_food_festivals",
-      "patterns": [
-        "What food is eaten during Nepali festivals?",
-        "Tell me about food during Dashain",
-        "What are the traditional foods during Tihar?",
-        "What do people eat during Lhosar?"
-      ],
-      "responses": [
-        "During Dashain, people eat 'Meat' (often goat or chicken), 'Sel Roti' (rice doughnuts), and 'Kheer' (rice pudding).",
-        "For Tihar, Nepalese people enjoy sweets like 'Khaja' (sweet pastries), 'Sel Roti', and 'Momo'. 'Kesar Lassi' (saffron yogurt drink) is also popular.",
-        "At Lhosar (Nepali New Year), people prepare 'Aloo Gobi', 'Gundruk', 'Chana', and celebrate with rice cakes and 'Sel Roti'."
-      ]
-    },
-    {
-      "tag": "spices_used",
-      "patterns": [
-        "What spices are commonly used in Nepali food?",
-        "Tell me about the spices in Nepal",
-        "What are the ingredients in Nepali curry?",
-        "How is Nepali curry different from Indian curry?"
-      ],
-      "responses": [
-        "Nepali food is known for its use of cumin, coriander, turmeric, fenugreek, ginger, and garlic. These spices give the food its distinct flavor.",
-        "Nepali curry is made using spices like turmeric, cumin, coriander, chili powder, and garam masala. It's often milder than Indian curry.",
-        "In Nepali curries, common spices include cumin, turmeric, coriander, and mustard seeds. The flavors are less intense than in Indian curries but equally aromatic."
-      ]
-    },
-    {
-      "tag": "best_food_in_kathmandu",
-      "patterns": [
-        "What is the best food to try in Kathmandu?",
-        "Where can I eat delicious food in Kathmandu?",
-        "What is the best restaurant in Kathmandu?",
-        "Can you recommend food in Kathmandu?"
-      ],
-      "responses": [
-        "In Kathmandu, you should try 'Momo' (dumplings), 'Dal Bhat', and 'Chatamari'. Restaurants like 'Thamel House Restaurant' and 'Bhojan Griha' serve authentic local dishes.",
-        "Kathmandu is known for its delicious 'Momo' and 'Dal Bhat'. 'MoMo Hut' and 'Newa Chhe' are great spots for traditional dishes.",
-        "If you're in Kathmandu, don't miss 'Thamel House Restaurant' for 'Momo' and 'Dal Bhat', or 'Kailash Restaurant' for a cozy vibe and Nepalese food."
-      ]
-    },
-    {
-      "tag": "health_benefits",
-      "patterns": [
-        "What are the health benefits of Nepalese food?",
-        "Is Nepali food healthy?",
-        "How healthy is Dal Bhat?",
-        "Are Nepali dishes nutritious?"
-      ],
-      "responses": [
-        "Nepalese food is often rich in vegetables and legumes, making it healthy and nutritious. Dishes like 'Dal Bhat' provide essential proteins and fiber.",
-        "Many Nepalese dishes, like 'Dal Bhat' and 'Aloo Tama', are packed with nutrients, and use fresh ingredients, making them a healthy choice.",
-        "Dal Bhat is a balanced and healthy meal, as it provides protein from lentils, carbohydrates from rice, and plenty of vitamins from vegetables."
-      ]
-    },
-    {
-      "tag": "where_to_eat",
-      "patterns": [
-        "Where can I eat the best food?",
-        "Where should I go to eat?",
-        "Where can I find good food?",
-        "Where to eat near me?",
-        "Can you recommend a place to eat?",
-        "Where is the best place to eat around here?"
-      ],
-      "responses": [
-        "Can you please specify which location you are asking about?",
-        "Could you tell me the area you're in so I can recommend some places?",
-        "I need a bit more detail! Could you tell me where you're looking to eat?",
-        "Please specify your location so I can recommend some good spots to eat."
+        "Here are some great places in {sub_location}. Check them out!"
       ]
     }
   ]
