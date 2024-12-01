@@ -98,7 +98,6 @@ def get_restaurant(id):
     try:
         cursor = db.cursor(dictionary=True)
         
-        # Fetch restaurant details
         cursor.execute("""
             SELECT r.id, r.title, r.restaurant_name, r.photo_url, r.rating, r.location, r.special_item, r.description,
                    r.recommendation, r.menu_photo_url, r.category
@@ -111,7 +110,6 @@ def get_restaurant(id):
         if not restaurant:
             return jsonify({"error": "Restaurant not found"}), 404
 
-        # Fetch reviews for the restaurant
         cursor.execute("""
             SELECT rev.review_text, u.username
             FROM reviews rev
@@ -121,11 +119,9 @@ def get_restaurant(id):
         
         reviews = cursor.fetchall()
 
-        # If no reviews exist, set it as an empty list
         if not reviews:
             reviews = []
 
-        # Add reviews to the restaurant data
         restaurant['reviews'] = reviews
 
         return jsonify(restaurant), 200
@@ -215,7 +211,6 @@ def submit_review():
         if not review_text or not user_id or not restaurant_id:
             return jsonify({"error": "Missing required fields"}), 400
 
-        # Insert review into the database
         cursor = db.cursor()
         query = """
             INSERT INTO reviews (user_id, restaurant_id, review_text)
@@ -224,7 +219,6 @@ def submit_review():
         cursor.execute(query, (user_id, restaurant_id, review_text))
         db.commit()
 
-        # Return a success message instead of username
         return jsonify({"message": "Review submitted successfully"}), 200
 
     except Exception as e:
