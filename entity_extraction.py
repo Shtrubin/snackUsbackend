@@ -4,7 +4,7 @@ nlp = spacy.load("en_core_web_sm")
 
 food_list = [
     "biryani", "momo", "pizza", "burger", "pasta", "sushi", "tacos", "ramen", "steak", 
-    "sandwich", "ice cream", "cake", "fries", "noodles", "pancakes", "chicken", "fish", "rice", "dumplings", "Espresso"
+    "sandwich", "ice cream", "cake", "fries", "noodles", "pancakes", "chicken", "fish", "rice", "dumplings", "Espresso", "chatamari","newari","thali","fish","pork"
 ]
 
 def extract_entities(text):     

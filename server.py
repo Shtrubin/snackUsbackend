@@ -25,7 +25,7 @@ db = mysql.connector.connect(
     host="localhost",
     user="root",
     password="",
-    database="snackus"
+    database="snack"
 )
 
 # Positive and Negative adjectives

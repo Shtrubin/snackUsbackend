@@ -18,7 +18,10 @@
       "patterns": [
         "Find a local restaurant",
         "I want a mid-range restaurant",
-        "Show me high-end restaurants"
+        "Show me high-end restaurants",
+        "I want high end restaurants",
+        "I want local restaurants",
+        "I want mid range restaurants"
       ],
       "responses": [
         "I found some restaurants in this category. Let me show you!"
@@ -38,7 +41,7 @@
     {
       "tag": "find_by_rating",
       "patterns": [
-        "I want a highly rated restaurant",
+        "",
         "Show me top-rated restaurants",
         "Find restaurants with rating above {rating}"
       ],
