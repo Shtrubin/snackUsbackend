@@ -1,11 +1,12 @@
 import numpy as np
 import random
 import json
-
 import torch
 import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
-
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
 from nltk_utils import bag_of_words, tokenize, stem
 from model import NeuralNet
 
@@ -28,10 +29,6 @@ all_words = [stem(w) for w in all_words if w not in ignore_words]
 all_words = sorted(set(all_words))
 tags = sorted(set(tags))
 
-print(len(xy), "patterns")
-print(len(tags), "tags:", tags)
-print(len(all_words), "unique stemmed words:", all_words)
-
 X_train = []
 y_train = []
 for (pattern_sentence, tag) in xy:
@@ -43,7 +40,7 @@ for (pattern_sentence, tag) in xy:
 X_train = np.array(X_train)
 y_train = np.array(y_train)
 
-num_epochs = 1000
+num_epochs = 100
 batch_size = 8
 learning_rate = 0.001
 input_size = len(X_train[0])
@@ -52,7 +49,6 @@ output_size = len(tags)
 print(input_size, output_size)
 
 class ChatDataset(Dataset):
-
     def __init__(self):
         self.n_samples = len(X_train)
         self.x_data = X_train
@@ -92,6 +88,34 @@ for epoch in range(num_epochs):
     if (epoch+1) % 100 == 0:
         print (f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
 
+# Calculate accuracy and confusion matrix after training
+model.eval()
+with torch.no_grad():
+    all_predictions = []
+    all_labels = []
+    for (words, labels) in train_loader:
+        words = words.to(device)
+        labels = labels.to(dtype=torch.long).to(device)
+        
+        outputs = model(words)
+        _, predicted = torch.max(outputs, 1)
+        
+        all_predictions.extend(predicted.cpu().numpy())
+        all_labels.extend(labels.cpu().numpy())
+
+accuracy = (np.array(all_predictions) == np.array(all_labels)).mean() * 100
+print(f'Accuracy: {accuracy:.2f}%')
+
+# Compute confusion matrix
+cm = confusion_matrix(all_labels, all_predictions)
+
+# Plot confusion matrix
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=tags, yticklabels=tags)
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.title('Confusion Matrix')
+plt.show()
 
 print(f'final loss: {loss.item():.4f}')
 
