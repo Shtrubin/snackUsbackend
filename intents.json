@@ -7,11 +7,18 @@
         "Where can I eat?",
         "Suggest me a restaurant",
         "What are some good restaurants?",
-        "Restaurants near me"
+        "Restaurants near me",
+        "I need a place to eat",
+        "Any good restaurants around?",
+        "Where should I dine tonight?",
+        "Where can I eat out?"
       ],
-      "responses": [
-        "Sure! Where would you like to eat? Any preferences for location or category?"
+      "responses":[
+        "Where would you like to eat? Can you share your location or the area you're in?",
+        "I can help! Which city or neighborhood are you looking for restaurants in?",
+        "Tell me where you are, and I’ll find the best spots near you!"
       ]
+      
     },
     {
       "tag": "find_by_category",
@@ -19,12 +26,17 @@
         "Find a local restaurant",
         "I want a mid-range restaurant",
         "Show me high-end restaurants",
-        "I want high end restaurants",
+        "I want high-end restaurants",
         "I want local restaurants",
-        "I want mid range restaurants"
+        "I want mid-range restaurants",
+        "Are there any affordable restaurants?",
+        "Recommend a luxury dining place",
+        "Find me an upscale restaurant"
       ],
       "responses": [
-        "I found some restaurants in this category. Let me show you!"
+        "I found some restaurants in this category. Let me show you!",
+        "Looking for something casual or fancy?",
+        "Do you have a budget in mind? I can help accordingly."
       ]
     },
     {
@@ -32,21 +44,30 @@
       "patterns": [
         "I want a restaurant with {special_item}",
         "Find a restaurant with {special_item}",
-        "Where can I find {special_item}?"
+        "Where can I find {special_item}?",
+        "I’m craving {special_item}, any recommendations?",
+        "Who serves the best {special_item}?",
+        "Which place has {special_item} on the menu?"
       ],
       "responses": [
-        "Here are some restaurants serving {special_item}. Enjoy!"
+        "Here are some restaurants serving {special_item}. Enjoy!",
+        "I’ve found places that serve {special_item}. Want to check them out?",
+        "How about trying {special_item} at one of these places?"
       ]
     },
     {
       "tag": "find_by_rating",
       "patterns": [
-        "",
         "Show me top-rated restaurants",
-        "Find restaurants with rating above {rating}"
+        "Find restaurants with rating above {rating}",
+        "Best-reviewed restaurants nearby?",
+        "Where can I find a 5-star restaurant?",
+        "Which restaurants have great reviews?"
       ],
       "responses": [
-        "Here are some highly-rated restaurants. You may like them!"
+        "Here are some highly-rated restaurants. You may like them!",
+        "Want customer favorites or critic’s choice?",
+        "These restaurants are highly recommended. Let me know what you think!"
       ]
     },
     {
@@ -54,10 +75,14 @@
       "patterns": [
         "Find restaurants in {sub_location}",
         "Show me restaurants in {sub_location}",
-        "Any restaurants in {sub_location}?"
+        "Any restaurants in {sub_location}?",
+        "Where to eat in {sub_location}?",
+        "What’s a good place to eat in {sub_location}?"
       ],
       "responses": [
-        "Here are some great places in {sub_location}. Check them out!"
+        "Here are some great places in {sub_location}. Check them out!",
+        "Looking for a specific cuisine in {sub_location}?",
+        "These are the top-rated spots in {sub_location}!"
       ]
     },
     {
@@ -67,24 +92,15 @@
         "Hi",
         "Hey",
         "Good morning",
-        "Good evening"
+        "Good evening",
+        "What's up?",
+        "Yo",
+        "Greetings"
       ],
       "responses": [
         "Hello! How can I assist you today?",
         "Hi there! What can I help you with?",
-        "Hey! How can I help you today?"
-      ]
-    },
-    {
-      "tag": "time",
-      "patterns": [
-        "What time is it?",
-        "Tell me the time",
-        "Do you know the time?"
-      ],
-      "responses": [
-        "Sorry, I can't tell the time right now.",
-        "I don't have access to the current time, but you can check your device's clock!"
+        "Hey! Looking for a great place to eat?"
       ]
     },
     {
@@ -92,10 +108,13 @@
       "patterns": [
         "What's the weather like?",
         "Tell me the weather",
-        "How's the weather today?"
+        "How's the weather today?",
+        "Is it going to rain today?",
+        "Will it be sunny today?"
       ],
       "responses": [
-        "I don't have live weather updates, but you can check a weather app or website for the latest information!"
+        "I don't have live weather updates, but you can check a weather app or website for the latest information!",
+        "I wish I could tell you, but checking your weather app would be best."
       ]
     },
     {
@@ -103,11 +122,14 @@
       "patterns": [
         "Thank you",
         "Thanks",
-        "I appreciate it"
+        "I appreciate it",
+        "Much appreciated",
+        "Thanks a lot"
       ],
       "responses": [
         "You're welcome! Let me know if you need anything else.",
-        "Happy to help! Feel free to ask anything else."
+        "Happy to help! Feel free to ask anything else.",
+        "Anytime! Let me know if you need more suggestions."
       ]
     },
     {
@@ -115,36 +137,14 @@
       "patterns": [
         "Goodbye",
         "Bye",
-        "See you later"
+        "See you later",
+        "Take care",
+        "Catch you later"
       ],
       "responses": [
         "Goodbye! Have a great day!",
-        "See you later! Take care!"
-      ]
-    },
-    {
-      "tag": "general_facts",
-      "patterns": [
-        "Tell me a fact",
-        "Give me a random fact",
-        "Tell me something interesting"
-      ],
-      "responses": [
-        "Did you know? Honey never spoils. Archaeologists have found pots of honey in ancient tombs that are over 3,000 years old!",
-        "Here’s a fun fact: Octopuses have three hearts!"
-      ]
-    },
-    {
-      "tag": "help",
-      "patterns": [
-        "Can you help me?",
-        "I need assistance",
-        "I don't know what to do",
-        "Help me out"
-      ],
-      "responses": [
-        "Of course! What do you need help with?",
-        "I'm here to help! What can I assist you with?"
+        "See you later! Take care!",
+        "Come back anytime for more restaurant recommendations!"
       ]
     },
     {
@@ -152,11 +152,14 @@
       "patterns": [
         "Tell me a joke",
         "Make me laugh",
-        "I need a joke"
+        "I need a joke",
+        "Crack a joke",
+        "Got any jokes?"
       ],
       "responses": [
         "Why don’t skeletons fight each other? They don’t have the guts!",
-        "Why did the scarecrow win an award? Because he was outstanding in his field!"
+        "Why did the scarecrow win an award? Because he was outstanding in his field!",
+        "I told my wife she should embrace her mistakes. She gave me a hug!"
       ]
     },
     {
@@ -164,11 +167,14 @@
       "patterns": [
         "Give me a quote",
         "Tell me an inspirational quote",
-        "Share a famous quote"
+        "Share a famous quote",
+        "Motivate me",
+        "I need some inspiration"
       ],
       "responses": [
         "“The only way to do great work is to love what you do.” – Steve Jobs",
-        "“Success is not final, failure is not fatal: It is the courage to continue that counts.” – Winston Churchill"
+        "“Success is not final, failure is not fatal: It is the courage to continue that counts.” – Winston Churchill",
+        "“Believe you can and you're halfway there.” – Theodore Roosevelt"
       ]
     },
     {
@@ -176,7 +182,9 @@
       "patterns": [
         "How do I make Dal Bhat?",
         "What is the recipe for Momo?",
-        "How do I cook Sel Roti?"
+        "How do I cook Sel Roti?",
+        "Give me a recipe for Nepali food",
+        "How to make traditional Nepali dishes?"
       ],
       "responses": [
         "Here’s a simple recipe for Dal Bhat: Cook rice and prepare lentil soup using lentils, turmeric, ginger, garlic, and spices. Serve with vegetables and pickles.",
@@ -185,31 +193,12 @@
       ]
     },
     {
-      "tag": "nepal_street_food",
-      "patterns": [
-        "What is a popular street food in Nepal?",
-        "Tell me about Nepali street food",
-        "What are famous street foods in Nepal?",
-        "What do people eat on the streets of Nepal?"
-      ],
-      "responses": [
-        "Nepal's street food scene is diverse and delicious! Some famous options include:",
-        "1. **Momo**: Dumplings filled with meat or vegetables, often served with a spicy dipping sauce.",
-        "2. **Chatamari**: Sometimes called Nepali pizza, it's a rice flour crepe topped with meat, eggs, and vegetables.",
-        "3. **Sel Roti**: A homemade rice doughnut often prepared during festivals and special occasions.",
-        "4. **Samosa**: Deep-fried pastries filled with spiced potatoes or meat.",
-        "5. **Chowmein**: Nepali-style fried noodles, usually served with vegetables, chicken, or pork.",
-        "6. **Thukpa**: A noodle soup popular in the mountainous regions of Nepal, typically served with vegetables or meat.",
-        "7. **Aloo Tama**: A unique Nepali curry made with potatoes and bamboo shoots, often enjoyed as a street snack.",
-        "These street foods reflect Nepal's vibrant food culture, and you can find them in bustling areas like Thamel in Kathmandu!"
-      ]
-    },
-    {
       "tag": "birthday",
       "patterns": [
         "When is your birthday?",
         "When were you born?",
-        "What's your birthdate?"
+        "What's your birthdate?",
+        "Do you have a birthday?"
       ],
       "responses": [
         "I don't have a birthday, but I was created to assist you at any time!",
@@ -221,7 +210,8 @@
       "patterns": [
         "How old are you?",
         "What is your age?",
-        "How many years have you been around?"
+        "How many years have you been around?",
+        "Are you old or young?"
       ],
       "responses": [
         "I don’t age in the traditional sense, but I’ve been here to help you since my creation!",
