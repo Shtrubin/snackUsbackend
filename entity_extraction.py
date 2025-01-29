@@ -7,11 +7,11 @@ food_list = [
     "sandwich", "ice cream", "cake", "fries", "noodles", "pancakes", "chicken", "fish", "rice", "dumplings", "Espresso", "chatamari","newari","thali","fish","pork"
 ]
 
-# Common list of adjectives (this can be extended as needed)
 adjective_list = [
     "delicious", "great", "amazing", "excellent", "wonderful", "superb", "awesome", 
     "fabulous", "perfect", "impressive", "terrific", "fantastic", 
-    "outstanding", "marvelous", "lovely", "pleasing","best","good"
+    "outstanding", "marvelous", "lovely", "pleasing", "best", "good", 
+    "bad", "poor", "worst", "horrible", "terrible", "awful"
 ]
 
 def extract_entities(text):     

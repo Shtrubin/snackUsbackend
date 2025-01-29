@@ -6,10 +6,12 @@ from model import NeuralNet
 import json
 import random
 import mysql.connector
-positive_adjectives = ['Best', 'Good', 'Excellent', 'Great', 'Amazing', 'Awesome', 'Fantastic']
-negative_adjectives = ['Bad', 'Poor', 'Worst', 'Horrible', 'Terrible', 'Awful']
- 
-with open('intents.json', 'r',encoding='utf-8') as json_data:
+
+positive_adjectives = ['best', 'good', 'excellent', 'great', 'amazing', 'awesome', 'fantastic']
+negative_adjectives = ['bad', 'poor', 'worst', 'horrible', 'terrible', 'awful']
+
+
+with open('intents.json', 'r', encoding='utf-8') as json_data:
     intents = json.load(json_data)
 
 FILE = "data.pth"
@@ -38,11 +40,19 @@ def extract_rating(msg):
     return None
 
 def extract_category(msg):
-    categories = ['local', 'mid-range', 'high-end']
-    for category in categories:
+    categories = {
+        'mid': 'mid-range', 'mid range': 'mid-range', 'mid-range': 'mid-range',
+        'high': 'high-end', 'high end': 'high-end', 'high-end': 'high-end',
+        'local': 'local'
+    }
+    
+    for category, standardized_category in categories.items():
         if category in msg.lower():
-            return category
+            return standardized_category
+    
     return None
+
+
 def extract_place_name(msg):
     match = re.search(r'\bin\s+([a-zA-Z0-9\s]+)', msg)
     if match:
@@ -92,9 +102,9 @@ def search_location_in_database(msg, db=None):
         return result[0][0] 
     return None 
 
-def handle_location_response(location,db=None):
+def handle_location_response(location, db=None):
     cursor = db.cursor()
-    cursor.execute("SELECT restaurant_name, rating, description FROM restaurants WHERE location = %s OR sub_location LIKE %s", (location, location))
+    cursor.execute("SELECT restaurant_name, rating, description FROM restaurants WHERE location = %s OR sub_location LIKE %s LIMIT 3", (location, location))
     result = cursor.fetchall()
 
     if result:
@@ -106,7 +116,7 @@ def handle_location_response(location,db=None):
 
 def fetch_restaurants_by_food(food, db=None):
     cursor = db.cursor()
-    cursor.execute("SELECT restaurant_name, special_item, description FROM restaurants WHERE special_item LIKE %s OR recommendation LIKE %s", ('%' + food + '%', '%' + food + '%'))
+    cursor.execute("SELECT restaurant_name, special_item, description FROM restaurants WHERE special_item LIKE %s OR recommendation LIKE %s LIMIT 3", ('%' + food + '%', '%' + food + '%'))
     result = cursor.fetchall()
 
     if result:
@@ -120,11 +130,11 @@ def fetch_restaurants_by_rating(min_rating=None, max_rating=None, db=None):
     cursor = db.cursor()
 
     if min_rating is not None and max_rating is None:
-        cursor.execute("SELECT restaurant_name, rating FROM restaurants WHERE rating >= %s", (min_rating,))
+        cursor.execute("SELECT restaurant_name, rating FROM restaurants WHERE rating >= %s LIMIT 3", (min_rating,))
     elif max_rating is not None and min_rating is None:
-        cursor.execute("SELECT restaurant_name, rating FROM restaurants WHERE rating <= %s", (max_rating,))
+        cursor.execute("SELECT restaurant_name, rating FROM restaurants WHERE rating <= %s LIMIT 3", (max_rating,))
     elif min_rating is not None and max_rating is not None:
-        cursor.execute("SELECT restaurant_name, rating FROM restaurants WHERE rating BETWEEN %s AND %s", (min_rating, max_rating))
+        cursor.execute("SELECT restaurant_name, rating FROM restaurants WHERE rating BETWEEN %s AND %s LIMIT 3", (min_rating, max_rating))
     else:
         return "Invalid rating parameters."
 
@@ -174,7 +184,7 @@ def process_intent_with_model(msg, db=None):
                         return "Please specify a rating between 1 and 10."
 
                 elif tag == "find_by_sub_location":
-                    return fetch_restaurants_by_sub_location(msg,db)
+                    return fetch_restaurants_by_sub_location(msg, db)
                 else:
                     return random.choice(intent['responses'])
 
@@ -184,7 +194,7 @@ def process_intent_with_model(msg, db=None):
 
 def process_location_based_query(place, db=None):
     cursor = db.cursor()
-    cursor.execute("SELECT restaurant_name, rating, description FROM restaurants WHERE location = %s OR sub_location LIKE %s", (place,place))
+    cursor.execute("SELECT restaurant_name, rating, description FROM restaurants WHERE location = %s OR sub_location LIKE %s LIMIT 3", (place, place))
     result = cursor.fetchall()
 
     if result:
@@ -197,7 +207,7 @@ def process_location_based_query(place, db=None):
 
 def fetch_restaurants_by_category(category, db=None):
     cursor = db.cursor()
-    cursor.execute("SELECT restaurant_name, location, rating FROM restaurants WHERE category = %s", (category,))
+    cursor.execute("SELECT restaurant_name, location, rating FROM restaurants WHERE category = %s LIMIT 3", (category,))
     result = cursor.fetchall()
 
     if result:
@@ -209,7 +219,7 @@ def fetch_restaurants_by_category(category, db=None):
 
 def fetch_restaurants_by_special_item(special_item, db=None):
     cursor = db.cursor()
-    cursor.execute("SELECT restaurant_name, special_item, description FROM restaurants WHERE special_item LIKE %s", ('%' + special_item + '%',))
+    cursor.execute("SELECT restaurant_name, special_item, description FROM restaurants WHERE special_item LIKE %s LIMIT 3", ('%' + special_item + '%',))
     result = cursor.fetchall()
 
     if result:
@@ -221,7 +231,7 @@ def fetch_restaurants_by_special_item(special_item, db=None):
 
 def fetch_restaurants_rating(rating, db=None):
     cursor = db.cursor()
-    cursor.execute("SELECT restaurant_name, rating FROM restaurants WHERE rating >= %s", (rating,))
+    cursor.execute("SELECT restaurant_name, rating FROM restaurants WHERE rating >= %s LIMIT 3", (rating,))
     result = cursor.fetchall()
 
     if result:
@@ -237,14 +247,13 @@ def fetch_restaurants_by_sub_location(msg, db=None):
         return None  
 
     cursor = db.cursor()
-    cursor.execute("SELECT restaurant_name, location, rating, description FROM restaurants WHERE sub_location LIKE %s", ('%' + place_name + '%',))
+    cursor.execute("SELECT restaurant_name, location, rating, description FROM restaurants WHERE sub_location LIKE %s LIMIT 3", ('%' + place_name + '%',))
     result = cursor.fetchall()
 
     if result:
-        response = f"Here are some restaurants in the {sub_location} sub-location:\n"
+        response = f"Here are some restaurants in the {place_name} sub-location:\n"
         for row in result:
             response += f"{row[0]} - Location: {row[1]} - Rating: {row[2]}\nDescription: {row[3]}\n\n"
         return response
     else:
-        return f"Sorry, I couldn't find any restaurants in the {sub_location} sub-location."
-
+        return f"Sorry, I couldn't find any restaurants in the {place_name} sub-location."
