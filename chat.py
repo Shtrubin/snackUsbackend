@@ -1,6 +1,6 @@
 import re
 import torch
-from nltk_utils import bag_of_words, tokenize
+from nltk_utils import bag_of_words, tokenize, stem 
 from entity_extraction import extract_entities
 from model import NeuralNet
 import json
@@ -26,6 +26,11 @@ model = NeuralNet(input_size, hidden_size, output_size)
 model.load_state_dict(model_state)
 model.eval()
 
+def preprocess_message(msg):
+    tokenized_msg = tokenize(msg)
+    processed_msg = " ".join([stem(word) for word in tokenized_msg])
+    return processed_msg
+
 def extract_rating(msg):
     match = re.search(r"\b([1-9]|10)\b", msg)
     if match:
@@ -45,6 +50,7 @@ def extract_place_name(msg):
     return None
 
 def get_response(msg, db):
+    msg = preprocess_message(msg) 
     places, foods, adjectives = extract_entities(msg.title())
 
     print(f"\nEntities detected from message: '{msg}'")
@@ -54,21 +60,17 @@ def get_response(msg, db):
 
     positive_detected = any(adj in positive_adjectives for adj in adjectives)
     negative_detected = any(adj in negative_adjectives for adj in adjectives)
-    print("pos issss", positive_detected, negative_detected)
-
+    
     if positive_detected:
-        print("Positive adjective detected. Fetching restaurants with high ratings.")
-        return fetch_restaurants_by_rating(min_rating=8, db=db)  
-
+        return fetch_restaurants_by_rating(min_rating=8, db=db)
     elif negative_detected:
-        print("Negative adjective detected. Fetching restaurants with low ratings.")
-        return fetch_restaurants_by_rating(max_rating=3, db=db)  
-
+        return fetch_restaurants_by_rating(max_rating=3, db=db)
+    
     if len(foods) > 0:
         return fetch_restaurants_by_food(foods[0], db)
-
+    
     if len(places) == 0:
-        location = search_location_in_database(msg,db)
+        location = search_location_in_database(msg, db)
         if location:
             return handle_location_response(location, db)
         else:

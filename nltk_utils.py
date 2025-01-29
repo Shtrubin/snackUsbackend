@@ -1,42 +1,30 @@
 import numpy as np
-import nltk
-# nltk.download('punkt')
-from nltk.stem.porter import PorterStemmer
-stemmer = PorterStemmer()
+import re
 
+# List of common stopwords to remove
+stopwords = {"a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "if", "in", "into", "is", "it", "no", "not", "of", "on", "or", "such", "that", "the", "their", "then", "there", "these", "they", "this", "to", "was", "will", "with"}
 
+# Improved tokenization function with stopword removal
 def tokenize(sentence):
     """
-    split sentence into array of words/tokens
-    a token can be a word or punctuation character, or number
+    Tokenize sentence into words manually, handling punctuation properly and removing stopwords.
     """
-    return nltk.word_tokenize(sentence)
+    return [word for word in re.findall(r'\b\w+\b', sentence.lower()) if word not in stopwords]
 
-
+# Enhanced stemming function
 def stem(word):
-    """
-    stemming = find the root form of the word
-    examples:
-    words = ["organize", "organizes", "organizing"]
-    words = [stem(w) for w in words]
-    -> ["organ", "organ", "organ"]
-    """
-    return stemmer.stem(word.lower())
+    suffixes = ["ing", "ly", "ed", "es", "s", "ment"]
+    for suffix in suffixes:
+        if word.endswith(suffix) and len(word) > len(suffix):
+            return word[:-len(suffix)]
+    return word
 
-
+# Bag of words function
 def bag_of_words(tokenized_sentence, words):
-    """
-    return bag of words array:
-    1 for each known word that exists in the sentence, 0 otherwise
-    example:
-    sentence = ["hello", "how", "are", "you"]
-    words = ["hi", "hello", "I", "you", "bye", "thank", "cool"]
-    bog   = [  0 ,    1 ,    0 ,   1 ,    0 ,    0 ,      0]
-    """
+
     sentence_words = [stem(word) for word in tokenized_sentence]
     bag = np.zeros(len(words), dtype=np.float32)
     for idx, w in enumerate(words):
-        if w in sentence_words: 
+        if w in sentence_words:
             bag[idx] = 1
-
     return bag

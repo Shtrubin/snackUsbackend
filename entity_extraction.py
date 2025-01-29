@@ -7,13 +7,19 @@ food_list = [
     "sandwich", "ice cream", "cake", "fries", "noodles", "pancakes", "chicken", "fish", "rice", "dumplings", "Espresso", "chatamari","newari","thali","fish","pork"
 ]
 
-def extract_entities(text):     
+# Common list of adjectives (this can be extended as needed)
+adjective_list = [
+    "delicious", "great", "amazing", "excellent", "wonderful", "superb", "awesome", 
+    "fabulous", "perfect", "impressive", "terrific", "fantastic", 
+    "outstanding", "marvelous", "lovely", "pleasing","best","good"
+]
 
+def extract_entities(text):     
     doc = nlp(text)
     places = []
     foods = []
     adjectives = []
-    
+
     for ent in doc.ents:
         if ent.label_ == 'GPE':  
             places.append(ent.text)
@@ -21,6 +27,11 @@ def extract_entities(text):
     for token in doc:
         if token.pos_ == 'ADJ': 
             adjectives.append(token.text)
+
+    for word in text.split():
+        if word.lower() in adjective_list:
+            if word.lower() not in adjectives:
+                adjectives.append(word.lower())
 
     for food in food_list:
         if food.lower() in text.lower():  
