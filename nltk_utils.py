@@ -1,17 +1,12 @@
 import numpy as np
 import re
 
-# List of common stopwords to remove
 stopwords = {"a", "an", "and", "are", "as", "at", "be", "but", "by", "for", "if", "in", "into", "is", "it", "no", "not", "of", "on", "or", "such", "that", "the", "their", "then", "there", "these", "they", "this", "to", "was", "will", "with"}
 
-# Improved tokenization function with stopword removal
 def tokenize(sentence):
-    """
-    Tokenize sentence into words manually, handling punctuation properly and removing stopwords.
-    """
+
     return [word for word in re.findall(r'\b\w+\b', sentence.lower()) if word not in stopwords]
 
-# Enhanced stemming function
 def stem(word):
     suffixes = ["ing", "ly", "ed", "es", "s", "ment"]
     for suffix in suffixes:
@@ -19,7 +14,6 @@ def stem(word):
             return word[:-len(suffix)]
     return word
 
-# Bag of words function
 def bag_of_words(tokenized_sentence, words):
 
     sentence_words = [stem(word) for word in tokenized_sentence]
