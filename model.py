@@ -17,3 +17,10 @@ class NeuralNet(nn.Module):
         out = self.relu(out)
         out = self.l3(out)
         return out
+
+
+
+# Why Not Other Networks?
+# RNN (Recurrent Neural Network) would require recurrence (loops where the output of a layer is fed back into the network).
+# CNN (Convolutional Neural Network) would involve convolutional layers that are specialized for image processing tasks.
+# Since this model uses only linear layers and ReLU activations, it's a feedforward neural network.

@@ -13,15 +13,15 @@ from model import NeuralNet
 with open('intents.json', 'r', encoding='utf-8') as f:
     intents = json.load(f)
 
-all_words = []
+all_words = [] //hello how are you
 tags = []
-xy = []
+xy = [] //['greeting',('hi','hello')]
 for intent in intents['intents']:
     tag = intent['tag']
     tags.append(tag)
     for pattern in intent['patterns']:
-        w = tokenize(pattern)
-        all_words.extend(w)
+        w = tokenize(pattern)  ['hi','hello']
+        all_words.extend(w)  ['prev','hi','hello']
         xy.append((w, tag))
 
 ignore_words = ['?', '.', '!']
@@ -33,16 +33,17 @@ X_train = []
 y_train = []
 for (pattern_sentence, tag) in xy:
     bag = bag_of_words(pattern_sentence, all_words)
-    X_train.append(bag)
+    X_train.append(bag) 
     label = tags.index(tag)
     y_train.append(label)
+
 
 X_train = np.array(X_train)
 y_train = np.array(y_train)
 
 num_epochs = 1000
-batch_size = 8
-learning_rate = 0.001
+batch_size = 8 
+learning_rate = 0.001 
 input_size = len(X_train[0])
 hidden_size = 8
 output_size = len(tags)
@@ -60,35 +61,34 @@ class ChatDataset(Dataset):
     def __len__(self):
         return self.n_samples
 
+
 dataset = ChatDataset()
-train_loader = DataLoader(dataset=dataset,
+train_loader = DataLoader(dataset=dataset, 
                           batch_size=batch_size,
                           shuffle=True,
-                          num_workers=0)
+                          num_workers=0) 
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') 
 
-model = NeuralNet(input_size, hidden_size, output_size).to(device)
+model = NeuralNet(input_size, hidden_size, output_size).to(device)   
 
 criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-
+optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate) 
 for epoch in range(num_epochs):
     for (words, labels) in train_loader:
         words = words.to(device)
         labels = labels.to(dtype=torch.long).to(device)
         
-        outputs = model(words)
+        outputs = model(words)  
         loss = criterion(outputs, labels)
         
-        optimizer.zero_grad()
-        loss.backward()
-        optimizer.step()
+        optimizer.zero_grad()  
+        loss.backward()   
+        optimizer.step() 
         
     if (epoch+1) % 100 == 0:
         print (f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
 
-# Calculate accuracy and confusion matrix after training
 model.eval()
 with torch.no_grad():
     all_predictions = []
@@ -106,10 +106,8 @@ with torch.no_grad():
 accuracy = (np.array(all_predictions) == np.array(all_labels)).mean() * 100
 print(f'Accuracy: {accuracy:.2f}%')
 
-# Compute confusion matrix
 cm = confusion_matrix(all_labels, all_predictions)
 
-# Plot confusion matrix
 plt.figure(figsize=(8, 6))
 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=tags, yticklabels=tags)
 plt.xlabel('Predicted')

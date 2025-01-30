@@ -29,8 +29,8 @@ db = mysql.connector.connect(
 )
 
 # Positive and Negative adjectives
-positive_adjectives= ['Best', 'Good', 'Excellent', 'Great', 'Amazing', 'Awesome', 'Fantastic']
-negative_adjectives= ['Bad', 'Poor', 'Worst', 'Horrible', 'Terrible', 'Awful']
+positive_adjectives= ['best', 'good', 'excellent', 'great', 'amazing', 'awesome', 'fantastic']
+negative_adjectives= ['bad', 'poor', 'worst', 'horrible', 'terrible', 'awful']
 
 @app.route('/register', methods=['POST'])
 def register_user():
