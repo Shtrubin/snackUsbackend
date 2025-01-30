@@ -58,33 +58,20 @@
     {
       "tag": "find_by_rating",
       "patterns": [
-        "Show me top-rated restaurants",
-        "Find restaurants with rating above {rating}",
-        "Best-reviewed restaurants nearby?",
-        "Where can I find a 5-star restaurant?",
-        "Which restaurants have great reviews?"
+        "Show me restaurants with rating above {rating}",
+        "Find places with rating greater than {rating}",
+        "Which restaurants have a rating higher than {rating}?",
+        "Give me restaurants with a rating above {rating}",
+        "Where can I find restaurants rated above {rating}?"
       ],
       "responses": [
-        "Here are some highly-rated restaurants. You may like them!",
-        "Want customer favorites or critic’s choice?",
-        "These restaurants are highly recommended. Let me know what you think!"
+        "Here are some restaurants that match your rating preference.",
+        "These places have great ratings, check them out!",
+        "Looking for a restaurant with a rating above {rating}? Here’s a list!"
       ]
     },
-    {
-      "tag": "find_by_sub_location",
-      "patterns": [
-        "Find restaurants in {sub_location}",
-        "Show me restaurants in {sub_location}",
-        "Any restaurants in {sub_location}?",
-        "Where to eat in {sub_location}?",
-        "What’s a good place to eat in {sub_location}?"
-      ],
-      "responses": [
-        "Here are some great places in {sub_location}. Check them out!",
-        "Looking for a specific cuisine in {sub_location}?",
-        "These are the top-rated spots in {sub_location}!"
-      ]
-    },
+    
+    
     {
       "tag": "greeting",
       "patterns": [
@@ -101,20 +88,6 @@
         "Hello! How can I assist you today?",
         "Hi there! What can I help you with?",
         "Hey! Looking for a great place to eat?"
-      ]
-    },
-    {
-      "tag": "weather",
-      "patterns": [
-        "What's the weather like?",
-        "Tell me the weather",
-        "How's the weather today?",
-        "Is it going to rain today?",
-        "Will it be sunny today?"
-      ],
-      "responses": [
-        "I don't have live weather updates, but you can check a weather app or website for the latest information!",
-        "I wish I could tell you, but checking your weather app would be best."
       ]
     },
     {
@@ -145,77 +118,6 @@
         "Goodbye! Have a great day!",
         "See you later! Take care!",
         "Come back anytime for more restaurant recommendations!"
-      ]
-    },
-    {
-      "tag": "joke",
-      "patterns": [
-        "Tell me a joke",
-        "Make me laugh",
-        "I need a joke",
-        "Crack a joke",
-        "Got any jokes?"
-      ],
-      "responses": [
-        "Why don’t skeletons fight each other? They don’t have the guts!",
-        "Why did the scarecrow win an award? Because he was outstanding in his field!",
-        "I told my wife she should embrace her mistakes. She gave me a hug!"
-      ]
-    },
-    {
-      "tag": "quote",
-      "patterns": [
-        "Give me a quote",
-        "Tell me an inspirational quote",
-        "Share a famous quote",
-        "Motivate me",
-        "I need some inspiration"
-      ],
-      "responses": [
-        "“The only way to do great work is to love what you do.” – Steve Jobs",
-        "“Success is not final, failure is not fatal: It is the courage to continue that counts.” – Winston Churchill",
-        "“Believe you can and you're halfway there.” – Theodore Roosevelt"
-      ]
-    },
-    {
-      "tag": "recipe",
-      "patterns": [
-        "How do I make Dal Bhat?",
-        "What is the recipe for Momo?",
-        "How do I cook Sel Roti?",
-        "Give me a recipe for Nepali food",
-        "How to make traditional Nepali dishes?"
-      ],
-      "responses": [
-        "Here’s a simple recipe for Dal Bhat: Cook rice and prepare lentil soup using lentils, turmeric, ginger, garlic, and spices. Serve with vegetables and pickles.",
-        "For Momo: Make a dough with flour and water, roll it out, and fill with a mixture of ground meat or vegetables. Steam or fry them. Serve with chutney.",
-        "To make Sel Roti: Soak rice overnight, blend into a paste, and fry the mixture in a round shape until golden brown. Serve warm."
-      ]
-    },
-    {
-      "tag": "birthday",
-      "patterns": [
-        "When is your birthday?",
-        "When were you born?",
-        "What's your birthdate?",
-        "Do you have a birthday?"
-      ],
-      "responses": [
-        "I don't have a birthday, but I was created to assist you at any time!",
-        "I don’t celebrate birthdays, but I’m always here to help you!"
-      ]
-    },
-    {
-      "tag": "age",
-      "patterns": [
-        "How old are you?",
-        "What is your age?",
-        "How many years have you been around?",
-        "Are you old or young?"
-      ],
-      "responses": [
-        "I don’t age in the traditional sense, but I’ve been here to help you since my creation!",
-        "I don't age, but I'm always ready to assist you."
       ]
     }
   ]

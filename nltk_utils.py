@@ -8,7 +8,7 @@ def tokenize(sentence):
     return [word for word in re.findall(r'\b\w+\b', sentence.lower()) if word not in stopwords]
 
 def stem(word):
-    suffixes = ["ing", "ly", "ed", "es", "s", "ment"]
+    suffixes = ["ing", "ed", "es", "s", "ment"]
     for suffix in suffixes:
         if word.endswith(suffix) and len(word) > len(suffix):
             return word[:-len(suffix)]

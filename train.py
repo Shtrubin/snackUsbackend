@@ -13,15 +13,15 @@ from model import NeuralNet
 with open('intents.json', 'r', encoding='utf-8') as f:
     intents = json.load(f)
 
-all_words = [] //hello how are you
+all_words = [] 
 tags = []
-xy = [] //['greeting',('hi','hello')]
+xy = []
 for intent in intents['intents']:
     tag = intent['tag']
     tags.append(tag)
     for pattern in intent['patterns']:
-        w = tokenize(pattern)  ['hi','hello']
-        all_words.extend(w)  ['prev','hi','hello']
+        w = tokenize(pattern) 
+        all_words.extend(w) 
         xy.append((w, tag))
 
 ignore_words = ['?', '.', '!']
