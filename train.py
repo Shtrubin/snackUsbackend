@@ -70,7 +70,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = NeuralNet(input_size, hidden_size, output_size).to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
 
-def cross_entropy_loss_manual(outputs, labels, output_size):
+def cross_entropy_loss(outputs, labels, output_size):
     N = labels.shape[0]
     loss = 0
     for i in range(N):
@@ -79,7 +79,7 @@ def cross_entropy_loss_manual(outputs, labels, output_size):
         loss -= torch.log(predicted_probs[true_label])
     return loss / N
 
-def accuracy_manual(outputs, labels):
+def accuracy(outputs, labels):
     _, predicted = torch.max(outputs, 1)
     correct = (predicted == labels).sum().item()
     accuracy = correct / labels.size(0) * 100
@@ -92,11 +92,11 @@ for epoch in range(num_epochs):
         words, labels = words.to(device), labels.to(device)
         optimizer.zero_grad()
         outputs = model(words)
-        loss = cross_entropy_loss_manual(outputs, labels, output_size)
+        loss = cross_entropy_loss(outputs, labels, output_size)
         loss.backward()
         optimizer.step()
         total_loss += loss.item()
-        total_accuracy += accuracy_manual(outputs, labels)
+        total_accuracy += accuracy(outputs, labels)
 
     avg_loss = total_loss / len(train_loader)
     avg_accuracy = total_accuracy / len(train_loader)
